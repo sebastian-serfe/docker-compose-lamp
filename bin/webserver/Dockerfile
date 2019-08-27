@@ -44,5 +44,12 @@ RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ 
 RUN docker-php-ext-install -j$(nproc) gd
 
+RUN openssl genrsa -out localhost.key 2048
+RUN openssl req -new -x509 -key localhost.key -out localhost.cert -days 3650 -subj /CN=localhost
+RUN mv localhost.key /etc/ssl/private/localhost.key
+RUN mv localhost.cert /etc/ssl/certs/localhost.cert
+
 # Enable apache modules
 RUN a2enmod rewrite headers
+RUN a2ensite default-ssl
+RUN a2enmod ssl
