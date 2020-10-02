@@ -52,3 +52,9 @@ services:
     image: redis:latest
     ports:
       - "${HOST_MACHINE_REDIS_PORT}:6379"
+      
+  mailcatcher:
+    image: schickling/mailcatcher:latest    
+    ports:
+      - 1080:1080
+    tty: true
